@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to detect adblock</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="how-to-dectect-adblockers-with-js">How to dectect adblockers with Js</h1>
+<h6 id="note-you-might-want-to-try-multiple-solutions.">Note: You might want to try multiple solutions.</h6>
+<h2 id="solution-one">1.  Solution One</h2>
+<p>This solution relys on the fact that most adblockers will routinely block access to a file with ads in their name.</p>
+<ol>
+<li>Step One:<br>
+Create a file named ads.js in the same folder as the html page that you want to detect and put the content below into it.</li>
+</ol>
+<pre class=" language-js"><code class="prism  language-js"><span class="token comment">// ads.js</span>
+<span class="token keyword">var</span> adBlockerDectected <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+</code></pre>
+<ol start="2">
+<li>Step Two<br>
+Then in your index.html or any other html page put the content below into it.</li>
+</ol>
+<pre class=" language-html"><code class="prism  language-html"><span class="token doctype">&lt;!DOCTYPE HTML&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+			<span class="token keyword">var</span> adBlockerDectected <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+		</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!-- Link to this file to set adBlockerDectected to false --&gt;</span>
+		<span class="token comment">&lt;!-- But adBlocker might stop it so it will still be true --&gt;</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ads.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+			<span class="token comment">// Try if adBlockerDectected is true</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>adBlockerDectected<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token comment">/* 
+				What switch the line of code below with Js code
+				you want to activate when addblocker is dectected.
+				*/</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"AdBlocker detected!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+		</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!-- Your page content here --&gt;</span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h1 id="solution-two">Solution Two</h1>
+<p>This solution is used if you are using Google Adsense. It checks (after the page has loaded using setTimeout), the existence of <code>window,google_jobrunner</code>.</p>
+<ol>
+<li>Step One<br>
+Create a file called detectAdBlock.js, put the below content into it and link it to you html page,<br>
+<em><strong>Or</strong></em><br>
+Put the below content directly into your html page in script tags.</li>
+</ol>
+<pre class=" language-javascript"><code class="prism  language-javascript">  window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token keyword">typeof</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>google_jobrunner<span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token string">"undefined"</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"AdBlocker detected!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"AdBlocker not detected."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="solution-three">Solution Three</h1>
+<p>The solution uses jQuery and it has a bait, a div with the class adbanner. Most ad blockers will block it and if it does, then the Js code is dectecting if the height is zero which is what most adBlockers do.</p>
+<ol>
+<li>Step One<br>
+Get to jQuery CDN (Or install it if you wish), by putting the below content into your head in html.</li>
+</ol>
+<pre class=" language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<ol start="2">
+<li>Step Two<br>
+Add the main code, the finished code should look like this,</li>
+</ol>
+<pre class=" language-html"><code class="prism  language-html"><span class="token doctype">&lt;!DOCTYPE HTML&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!-- Scripts --&gt;</span>
+		<span class="token comment">&lt;!-- Add jQuery CDN --&gt;</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+			<span class="token function">$</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">ready</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+				<span class="token comment">// Detect height</span>
+				<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#wrapfabtest"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+					console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"AdBlocker detected!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+					console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"AdBlocker not detected."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+		</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!-- End scripts --&gt;</span>
+		<span class="token comment">&lt;!-- A bit of CSS but if you don't want to mess around with 	
+		CSS then you can add non-breaking space to the element (the one inside the dic with wrapfabtest as it's class)
+		Like this:
+			&lt;div class="adBanner"&gt;
+				&amp;nbsp;
+		    &lt;/div&gt;
+		--&gt;</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">&gt;</span></span>
+			.adBanner {
+				background-color: transparent;
+				height: 1px;
+				widith: 1px;
+			}
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!-- The fake ad --&gt;</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>wrapfabtest<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+		    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>adBanner<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+		    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!-- End fake ad --&gt;</span>
+		<span class="token comment">&lt;!-- Your other content --&gt;</span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div>
+</body>
+
+</html>
